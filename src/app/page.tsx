@@ -9,12 +9,18 @@ export default function Home() {
         autenticação
       </p>
 
-      <div className="flex justify-center gap-6">
+      <div className="flex justify-center gap-3">
         <Link href="/signin" className="p-3 text-white rounded-xl bg-zinc-700">
           Login
         </Link>
         <Link href="/signup" className="p-3 text-white rounded-xl bg-green-700">
           Cadastrar usuário
+        </Link>
+        <Link
+          href="/dashboard"
+          className="p-3 text-white rounded-xl bg-sky-700"
+        >
+          Dashboard
         </Link>
       </div>
     </div>
