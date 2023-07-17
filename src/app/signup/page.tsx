@@ -1,53 +1,50 @@
 "use client";
 
+import { createUser } from "@/actions/user-actions";
+import { User } from "@/models/user";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
 
 export default function Signup() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  async function handleSubmit(data: FormData) {
+    const name = data.get("name") as string;
+    const email = data.get("email") as string;
+    const password = data.get("password") as string;
+    const payload: Partial<User> = { name, email, password };
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+    const isCreated = await createUser(payload);
 
-    try {
-      setName("");
-      setEmail("");
-      setPassword("");
-
-      alert("Usuário cadastrado!");
-    } catch (error) {
-      alert("Erro ao cadastrar usuário!");
+    if (isCreated) {
+      alert("Usuário criado, faça login!");
+    } else {
+      alert(
+        "Erro ao criar usuário! As credenciais informadas podem estar em uso por outro usuário."
+      );
     }
   }
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl text-white">Sign up</h1>
-      <form className="space-y-3" onSubmit={handleSubmit}>
+      <form action={handleSubmit} className="space-y-3">
         <input
           type="text"
           placeholder="Nome"
           className="p-3 rounded-xl bg-zinc-700 outline-none text-white w-full"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
+          name="name"
           required
         />
         <input
           type="email"
           placeholder="E-mail"
           className="p-3 rounded-xl bg-zinc-700 outline-none text-white w-full"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
+          name="email"
           required
         />
         <input
           type="password"
           placeholder="Senha"
           className="p-3 rounded-xl bg-zinc-700 outline-none text-white w-full"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
+          name="password"
           required
         />
         <div className="flex gap-6">
