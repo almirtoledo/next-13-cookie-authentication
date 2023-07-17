@@ -1,9 +1,11 @@
 "use client";
 
-import { credentials } from "@/actions/user-actions";
+import { credentials, logout } from "@/actions/user-actions";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Dashbaord() {
+  const router = useRouter();
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState("");
 
@@ -16,7 +18,11 @@ export default function Dashbaord() {
     getCredentials();
   }, []);
 
-  async function handleLogout() {}
+  async function handleLogout() {
+    await logout();
+    alert("Logout feito com sucesso!");
+    router.refresh();
+  }
 
   return (
     <div className="space-y-6">
