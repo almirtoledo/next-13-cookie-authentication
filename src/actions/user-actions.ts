@@ -46,3 +46,8 @@ export async function login(email: string, password: string): Promise<boolean> {
     return false;
   }
 }
+
+export async function credentials() {
+  const session = cookies().get("session");
+  return JSON.parse(session?.value as string);
+}
