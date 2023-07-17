@@ -1,43 +1,41 @@
 "use client";
 
+import { login } from "@/actions/user-actions";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Signin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  async function handleSubmit(data: FormData) {
+    const email = data.get("email") as string;
+    const password = data.get("password") as string;
 
-    try {
-      setEmail("");
-      setPassword("");
+    const isLogin = await login(email, password);
 
-      alert("Usuário cadastrado!");
-    } catch (error) {
+    if (!isLogin) {
       alert("Credenciais inválidas!");
+    } else {
+      router.push("/dashboard");
     }
   }
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl text-white">Sign in</h1>
-      <form className="space-y-3" onSubmit={handleSubmit}>
+      <form action={handleSubmit} className="space-y-3">
         <input
           type="email"
           placeholder="E-mail"
           className="p-3 rounded-xl bg-zinc-700 outline-none text-white w-full"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
+          name="email"
           required
         />
         <input
           type="password"
           placeholder="Senha"
           className="p-3 rounded-xl bg-zinc-700 outline-none text-white w-full"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
+          name="password"
           required
         />
         <div className="flex gap-6">
