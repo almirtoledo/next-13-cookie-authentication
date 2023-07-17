@@ -51,3 +51,7 @@ export async function credentials() {
   const session = cookies().get("session");
   return JSON.parse(session?.value as string);
 }
+
+export async function logout() {
+  cookies().delete("session");
+}
